@@ -1,0 +1,85 @@
+import React from "react";
+import styled from "styled-components";
+import exp1 from "../assets/experience/exp1.jpeg";
+
+const Form = styled.form`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Label = styled.label`
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column-reverse;
+  width: 50%;
+
+  input {
+    border: none;
+    border-bottom: 2px solid black;
+    outline: none;
+
+    font-size: 24px;
+  }
+`;
+
+const Cards = styled.div`
+  width: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  gap: 2rem;
+  align-items: center;
+`;
+
+const Card = styled.div`
+  height: 200px;
+  width: 200px;
+  background-color: gray;
+  background: url(${exp1}) center/cover no-repeat;
+  box-shadow: 0 0 25px rgba(17, 1, 68, 0.08);
+  border-radius: 8px;
+  cursor: pointer;
+`;
+
+const FormModal = () => {
+  return (
+    <Form>
+      <h1>Запис на консультацію</h1>
+      <h2>Введіть ваші дані</h2>
+      <Label>
+        <input placeholder="Імʼя" />
+      </Label>
+      <Label>
+        <input placeholder="Телефон" />
+      </Label>
+      <h3>Ціль візиту</h3>
+      <Cards>
+        <Card>
+          <input type="checkbox" id="1" />
+          <label htmlFor="1"></label>
+        </Card>
+        <Card>
+          <input type="checkbox" />
+          <label></label>
+        </Card>
+        <Card>
+          <input type="checkbox" />
+          <label></label>
+        </Card>
+        <Card>
+          <input type="checkbox" />
+          <label></label>
+        </Card>
+        <Card>
+          <input type="checkbox" />
+          <label></label>
+        </Card>
+      </Cards>
+    </Form>
+  );
+};
+
+export default FormModal;
