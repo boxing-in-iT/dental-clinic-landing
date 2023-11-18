@@ -4,8 +4,9 @@ import styled from "styled-components";
 const Title = styled.h1`
   font-size: 3.5rem;
   font-family: "Press Start 2P";
+  color: white;
   @media (max-width: 64em) {
-    font-size: 1.25rem;
+    font-size: 2.5rem;
   }
   margin: 0;
   z-index: 1000;
@@ -17,8 +18,10 @@ const Title = styled.h1`
 const SubTitle = styled.h2`
   font-size: 22px;
   font-family: "Press Start 2P";
+  color: white;
   @media (max-width: 64em) {
-    font-size: 0.75rem;
+    font-size: 1.5rem;
+    font-weight: 100;
   }
   z-index: 1000;
 

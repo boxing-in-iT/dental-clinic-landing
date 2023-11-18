@@ -33,10 +33,11 @@ const Container = styled.div`
 const Team = () => {
   return (
     <Section>
-      <SectionTitle text={"Наша команда!"} />
+      <SectionTitle color={"white"} text={"Наша команда!"} />
       <Container>
         {teamMembers.map((data, i) => (
           <MemberComponent
+            key={i}
             img={data.img}
             name={data.name}
             position={data.position}

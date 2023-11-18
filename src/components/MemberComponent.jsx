@@ -34,6 +34,11 @@ const ImageContainer = styled.div`
     height: auto;
     border-radius: 10px;
   }
+  @media (max-width: 64em) {
+    img {
+      width: 80%;
+    }
+  }
 `;
 
 const Name = styled.h2`
@@ -42,7 +47,7 @@ const Name = styled.h2`
   justify-content: center;
   align-items: center;
   text-transform: uppercase;
-  color: #000;
+  color: white;
   margin-top: 1rem;
 
   @media (max-width: 64em) {
@@ -73,7 +78,7 @@ const Position = styled.h2`
   justify-content: center;
   align-items: center;
   text-transform: capitalize;
-  color: #000;
+  color: white;
   margin-top: 1rem;
   font-weight: 400;
 `;

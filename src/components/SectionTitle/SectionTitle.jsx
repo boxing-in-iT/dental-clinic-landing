@@ -8,6 +8,9 @@ const TitleSection = styled.div`
   justify-content: space-around;
   align-items: center;
   margin-bottom: -2rem;
+  @media (max-width: 64em) {
+    margin-bottom: 5rem;
+  }
 `;
 
 const ReverseImg = styled.img`
@@ -25,10 +28,15 @@ const Title = styled.h1`
   font-size: 90px;
 
   letter-spacing: 0.08em;
-  color: #000;
+  /* color: #fff; */
+  color: ${(props) => (props.color == "black" ? "black" : "white")};
+  @media (max-width: 64em) {
+    font-size: 2rem;
+    text-align: center;
+  }
 `;
 
-const SectionTitle = ({ text }) => {
+const SectionTitle = ({ text, color }) => {
   return (
     <TitleSection>
       <img
@@ -36,7 +44,7 @@ const SectionTitle = ({ text }) => {
         imgfield="tn_img_1610455862242"
         src="https://static.tildacdn.com/tild3364-6232-4265-b333-306132616564/Vector_3.svg"
       />
-      <Title>{text}</Title>
+      <Title color={color}>{text}</Title>
       <ReverseImg
         data-original="https://static.tildacdn.com/tild3364-6232-4265-b333-306132616564/Vector_3.svg"
         imgfield="tn_img_1610455862250"

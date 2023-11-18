@@ -1,9 +1,10 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import SectionTitle from "../components/SectionTitle/SectionTitle";
 import exp1 from "../assets/experience/exp1.jpeg";
 import HeaderButton from "../components/Buttons/HeaderButton";
 import { purposes } from "../constants/constants";
+import { sendToPost } from "../api/postMail";
 // import { purposes } from "../constants/constants";
 
 const Section = styled.section`
@@ -27,9 +28,10 @@ const Container = styled.div`
   align-items: flex-start;
   flex-wrap: wrap;
 
-  @media (max-width: 30em) {
-    width: 90%;
-    justify-content: center;
+  @media (max-width: 64em) {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
   }
 `;
 
@@ -41,21 +43,31 @@ const Box = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 150px;
+  @media (max-width: 64em) {
+    width: 100%;
+  }
 `;
 
 const Title = styled.h3`
   font-size: 48px;
+  text-align: center;
 `;
 
 const Form = styled.form`
   display: flex;
   flex-direction: column;
   width: 100%;
+  justify-content: center;
+  align-items: center;
 `;
 
 const FormTitle = styled.h4`
-  font-size: 18px;
+  text-align: center;
+  font-size: 2rem;
   font-weight: 300;
+  @media (max-width: 64em) {
+    font-size: 1.5rem;
+  }
 `;
 
 const Input = styled.input`
@@ -72,6 +84,13 @@ const Input = styled.input`
 
 const P = styled.p`
   font-size: 28px;
+`;
+
+const CheckBoxGroup = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
 `;
 
 const CheckBoxContainer = styled.label`
@@ -103,6 +122,7 @@ const CheckBox = styled.input`
 
 const Btn = styled.button`
   margin-top: 30px;
+  margin-bottom: 1rem;
   width: 50%;
   height: 50px;
   border-radius: 10px;
@@ -132,6 +152,9 @@ const SignUp = () => {
 
   const memoizedName = useMemo(() => name, [name]);
   const mamoizedPhoneNumber = useMemo(() => phoneNumber, [phoneNumber]);
+
+  const formRef = useRef();
+  const focusRef = useRef();
 
   const handleNameChange = ({ target: { value } }) => {
     setName(value);
@@ -184,7 +207,7 @@ const SignUp = () => {
         return { name: selectedPurpose.name };
       }),
     };
-    postMessage(formData);
+    await sendToPost(formData);
   };
 
   return (
@@ -214,15 +237,18 @@ const SignUp = () => {
               required
             />
             <P>Що вам потрібно?</P>
-            {purposes.map((data, i) => (
-              <CheckBoxContainer key={data.id}>
-                <CheckBox
-                  type="checkbox"
-                  onChange={() => handleCheckboxChange(data.id)}
-                />
-                {data.name}
-              </CheckBoxContainer>
-            ))}
+            <CheckBoxGroup>
+              {purposes.map((data, i) => (
+                <CheckBoxContainer key={data.id}>
+                  <CheckBox
+                    type="checkbox"
+                    onChange={() => handleCheckboxChange(data.id)}
+                  />
+                  {data.name}
+                </CheckBoxContainer>
+              ))}
+            </CheckBoxGroup>
+
             <Btn onClick={handleSubmit}>Замовити дзвінок</Btn>
           </Form>
         </Box>

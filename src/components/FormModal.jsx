@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from "react";
 import styled from "styled-components";
 import { purposes } from "../constants/constants";
+import { sendToPost } from "../api/postMail";
 
 const Form = styled.form`
   width: 100%;
@@ -14,6 +15,14 @@ const Form = styled.form`
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
 `;
 
+const Title = styled.h1`
+  text-align: center;
+`;
+
+const SubTitle = styled.h2`
+  text-align: center;
+`;
+
 const Label = styled.label`
   margin-top: 1.5rem;
   display: flex;
@@ -22,11 +31,17 @@ const Label = styled.label`
 
   input {
     height: 50px;
-    border: 1px solid #ddd; /* Adjust border color */
+    border: 1px solid #ddd;
     border-radius: 8px;
     outline: none;
     padding: 10px;
     font-size: 18px;
+  }
+
+  @media (max-width: 64em) {
+    input {
+      height: 25px;
+    }
   }
 `;
 
@@ -51,7 +66,7 @@ const Card = styled.div`
   height: 200px;
   width: 200px;
   background-color: #fff;
-  background: ${(props) => `url(${props.img})`};
+  background: ${(props) => `url(${props.img}) center/cover no-repeat`};
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   border-radius: 10px;
   cursor: pointer;
@@ -59,6 +74,10 @@ const Card = styled.div`
 
   &:hover {
     transform: scale(1.05);
+  }
+  @media (max-width: 64em) {
+    height: 100px;
+    width: 100px;
   }
 `;
 
@@ -73,26 +92,44 @@ const CheckMark = styled.div`
 
 const LabelText = styled.span`
   color: black;
-  font-size: 18px;
+  font-size: 1rem;
   margin-top: 10px;
+  @media (max-width: 64em) {
+    font-size: 0.5rem;
+    text-align: center;
+  }
 `;
 
 const Btn = styled.button`
-  margin-top: 20px;
+  margin-top: 2rem;
   border-radius: 4px;
   cursor: pointer;
-  font-size: 18px;
+  font-size: 2rem;
   transition: background-color 0.3s, transform 0.3s;
   position: relative;
   background-color: #007bff;
   color: #fff;
   border: none;
-  padding: 12px 24px;
+  padding: 1rem 2rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   &:hover {
     background-color: #0056b3;
     transform: scale(1.1);
+  }
+  @media (max-width: 64em) {
+    padding: 0.5rem 1rem;
+  }
+`;
+
+const Info = styled.p`
+  margin-top: 1rem;
+  font-size: 1rem;
+  color: gray;
+  font-weight: 300;
+  @media (max-width: 64em) {
+    font-size: 0.75rem;
+    text-align: center;
   }
 `;
 
@@ -155,14 +192,14 @@ const FormModal = () => {
       }),
     };
 
-    postMessage(dataToSend);
+    await sendToPost(dataToSend);
   };
 
   return (
     <>
       <Form>
-        <h1>Запис на консультацію</h1>
-        <h2>Введіть ваші дані</h2>
+        <Title>Запис на консультацію</Title>
+        <SubTitle>Введіть ваші дані</SubTitle>
         <Label>
           <input
             placeholder="Імʼя"
@@ -195,9 +232,8 @@ const FormModal = () => {
           ))}
         </Cards>
         <Btn onClick={handleSubmit}>Записатись</Btn>
-        <p>Менеджер звʼяжеться з вами та узгодить дату і час візиту</p>
+        <Info>Менеджер звʼяжеться з вами та узгодить дату і час візиту</Info>
       </Form>
-      <Btn onClick={handleSubmit}>Записатись</Btn>
     </>
   );
 };

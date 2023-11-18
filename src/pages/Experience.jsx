@@ -48,6 +48,9 @@ const Box = styled.div`
   justify-content: center;
   align-items: center;
   margin: 0;
+  @media (max-width: 64em) {
+    flex-direction: column-reverse;
+  }
 `;
 
 // const Image = styled.img`
@@ -62,12 +65,13 @@ const Image = styled.img`
 const Title = styled.h3`
   font-style: bold;
   font-size: 24px;
+  color: black;
 `;
 
 const Experience = () => {
   return (
     <Section>
-      <SectionTitle text={"Наш досвід!"} />
+      <SectionTitle color={"black"} text={"Наш досвід!"} />
       <Container>
         <Box>
           <Title>Тисячі вдячних пацієнтів</Title>

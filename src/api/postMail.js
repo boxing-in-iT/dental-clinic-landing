@@ -1,14 +1,18 @@
-export const postMessage = async (dataToSend) => {
-  try {
-    const response = await fetch("http://localhost:3001/send-email", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(dataToSend),
-    });
+import axios from "axios";
 
-    if (response.ok) {
+export const sendToPost = async (dataToSend) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:3001/send-email",
+      dataToSend,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    if (response.status === 200) {
       console.log("Email sent successfully!");
     } else {
       console.error("Failed to send email.");

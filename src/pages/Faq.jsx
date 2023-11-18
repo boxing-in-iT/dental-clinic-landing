@@ -24,12 +24,12 @@ const Container = styled.div`
 
   @media (max-width: 48em) {
     justify-items: center;
-    flex-direction: column-reverse;
-    gap: 2rem;
+    flex-direction: column;
+    /* gap: 2rem; */
 
     & > *:first-child {
       width: 100%;
-      margin-top: 2rem;
+      /* margin-top: 2rem; */
     }
   }
 `;
@@ -42,10 +42,17 @@ const Box = styled.div`
   justify-content: center;
   align-items: center;
   margin-top: 150px;
+  @media (max-width: 64em) {
+    max-height: 25vh;
+  }
 `;
 
 const Title = styled.h2`
   font-size: 72px;
+  @media (max-width: 64em) {
+    font-size: 3rem;
+    text-align: center;
+  }
 `;
 
 const FaqWrapper = styled.div`
