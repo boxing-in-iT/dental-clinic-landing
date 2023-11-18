@@ -164,14 +164,16 @@ const SignUp = () => {
 
   const onSubmit = (data) => {
     const purposesArray = Object.entries(data.purposes);
-    const selectedPurposes = purposesArray
+    const selectedCards = purposesArray
       .filter(([purpose, value]) => value === true)
-      .map(([purpose]) => purpose);
+      .map(([purpose]) => ({ name: purpose }));
+
     const sendData = {
       name: data.name,
       phone: data.phone,
-      selectedPurposes: selectedPurposes,
+      selectedCards: selectedCards,
     };
+
     reset();
     sendToPost(sendData);
   };

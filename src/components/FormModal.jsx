@@ -2,6 +2,7 @@ import React, { useMemo, useState } from "react";
 import styled from "styled-components";
 import { purposes } from "../constants/constants";
 import { sendToPost } from "../api/postMail";
+import { useForm } from "react-hook-form";
 
 const Form = styled.form`
   width: 100%;
@@ -133,13 +134,21 @@ const Info = styled.p`
   }
 `;
 
+const ErrorMessage = styled.p`
+  font-size: 16px;
+  color: red;
+  margin-top: 5px;
+  font-weight: 200;
+`;
+
 const FormModal = () => {
   const [selectedCards, setSelectedCards] = useState([]);
-  const [name, setName] = useState("");
-  const [phone, setPhone] = useState("");
-
-  const memoizedName = useMemo(() => name, [name]);
-  const memoizedPhone = useMemo(() => phone, [phone]);
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
   const handleCardClick = (cardId) => {
     setSelectedCards((prevSelectedCards) =>
@@ -149,71 +158,39 @@ const FormModal = () => {
     );
   };
 
-  const handleNameChange = ({ target: { value } }) => {
-    setName(value);
-  };
-
-  const handlePhoneChange = ({ target: { value } }) => {
-    setPhone(value);
-  };
-
-  const handleSubmit = async () => {
-    // Basic form validation
-    if (!name.trim()) {
-      alert("Please enter your name");
-      return;
-    }
-
-    if (!phone.trim()) {
-      alert("Please enter your phone number");
-      return;
-    }
-
-    // Additional validation for phone number (you can customize this based on your requirements)
-    const phoneRegex = /^\d{10}$/;
-    if (!phoneRegex.test(phone)) {
-      alert("Please enter a valid 10-digit phone number");
-      return;
-    }
-
-    // Check at least one checkbox is selected
-    if (selectedCards.length === 0) {
-      alert("Please select at least one checkbox");
-      return;
-    }
-
-    // Proceed with submitting the form
-    const dataToSend = {
-      name,
-      phone,
-      selectedCards: selectedCards.map((cardId) => {
-        const selectedCard = purposes.find((card) => card.id === cardId);
-        return { name: selectedCard.name };
-      }),
-    };
-
-    await sendToPost(dataToSend);
-  };
+  const onSubmit = (data) => {};
 
   return (
     <>
-      <Form>
+      <Form onSubmit={handleSubmit(onSubmit)}>
         <Title>Запис на консультацію</Title>
         <SubTitle>Введіть ваші дані</SubTitle>
         <Label>
           <input
             placeholder="Імʼя"
-            value={memoizedName}
-            onChange={handleNameChange}
+            {...register("name", {
+              required: "Це поле обов'язкове",
+              minLength: {
+                value: 2,
+                message: "Ім'я повинно містити принаймні 2 символи",
+              },
+            })}
           />
+          {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
         </Label>
         <Label>
           <input
             placeholder="Телефон"
-            value={memoizedPhone}
-            onChange={handlePhoneChange}
+            {...register("phone", {
+              required: "Це поле обов'язкове",
+              pattern: {
+                value: /^\d{10}$/,
+                message: "Неправильний формат телефонного номеру",
+              },
+            })}
           />
         </Label>
+        {errors.phone && <ErrorMessage>{errors.phone.message}</ErrorMessage>}
         <h3>Ціль візиту</h3>
         <Cards>
           {purposes.map((card) => (
@@ -231,7 +208,7 @@ const FormModal = () => {
             </CardWrapper>
           ))}
         </Cards>
-        <Btn onClick={handleSubmit}>Записатись</Btn>
+        <Btn type="submit">Записатись</Btn>
         <Info>Менеджер звʼяжеться з вами та узгодить дату і час візиту</Info>
       </Form>
     </>
