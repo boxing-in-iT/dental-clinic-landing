@@ -141,7 +141,7 @@ const ErrorMessage = styled.p`
   font-weight: 200;
 `;
 
-const FormModal = () => {
+const FormModal = ({ hide }) => {
   const [selectedCards, setSelectedCards] = useState([]);
   const {
     register,
@@ -158,7 +158,19 @@ const FormModal = () => {
     );
   };
 
-  const onSubmit = (data) => {};
+  const onSubmit = (data) => {
+    const dataToSend = {
+      name: data.name,
+      phone: data.phone,
+      selectedCards: selectedCards.map((cardId) => {
+        const selectedCard = purposes.find((card) => card.id === cardId);
+        return { name: selectedCard.name };
+      }),
+    };
+    reset();
+    sendToPost(dataToSend);
+    hide();
+  };
 
   return (
     <>
@@ -176,8 +188,8 @@ const FormModal = () => {
               },
             })}
           />
-          {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
         </Label>
+        {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
         <Label>
           <input
             placeholder="Телефон"
