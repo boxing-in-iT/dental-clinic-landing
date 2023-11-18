@@ -3,6 +3,8 @@ import styled from "styled-components";
 import SectionTitle from "../components/SectionTitle/SectionTitle";
 import exp1 from "../assets/experience/exp1.jpeg";
 import HeaderButton from "../components/Buttons/HeaderButton";
+import { purposes } from "../constants/constants";
+// import { purposes } from "../constants/constants";
 
 const Section = styled.section`
   min-height: 120vh;
@@ -126,33 +128,64 @@ const Btn = styled.button`
 const SignUp = () => {
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+  const [selectedPurposes, setSelectedPurposes] = useState([]);
 
   const memoizedName = useMemo(() => name, [name]);
   const mamoizedPhoneNumber = useMemo(() => phoneNumber, [phoneNumber]);
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
+  const handleNameChange = ({ target: { value } }) => {
+    setName(value);
   };
 
-  const handlePhoneNumberChange = (event) => {
-    setPhoneNumber(event.target.value);
+  const handlePhoneNumberChange = ({ target: { value } }) => {
+    setPhoneNumber(value);
   };
 
-  const checkboxes = [
-    "Консультація",
-    "Гігієна ротової порожнини",
-    "Лікування",
-    "Встановлення коронки",
-    "Відбілювання",
-    "Встановлення брекет системи",
-    "Імплантація",
-    "Інше",
-  ];
+  const handleCheckboxChange = (purposeId) => {
+    setSelectedPurposes((prevSelectedPurposes) =>
+      prevSelectedPurposes.includes(purposeId)
+        ? prevSelectedPurposes.filter((id) => id !== purposeId)
+        : [...prevSelectedPurposes, purposeId]
+    );
+  };
 
-  useEffect(() => {
-    console.log("Effect");
-  });
+  const handleSubmit = async () => {
+    // Basic form validation
+    if (!name.trim()) {
+      alert("Please enter your name");
+      return;
+    }
+
+    if (!phoneNumber.trim()) {
+      alert("Please enter your phone number");
+      return;
+    }
+
+    // Additional validation for phone number (you can customize this based on your requirements)
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(phoneNumber)) {
+      alert("Please enter a valid 10-digit phone number");
+      return;
+    }
+
+    // Check at least one checkbox is selected
+    if (selectedPurposes.length === 0) {
+      alert("Please select at least one checkbox");
+      return;
+    }
+
+    const formData = {
+      name: memoizedName,
+      phoneNumber: mamoizedPhoneNumber,
+      selectedPurposes: selectedPurposes.map((purposeId) => {
+        const selectedPurpose = purposes.find(
+          (purpose) => purpose.id === purposeId
+        );
+        return { name: selectedPurpose.name };
+      }),
+    };
+    postMessage(formData);
+  };
 
   return (
     <Section>
@@ -181,20 +214,17 @@ const SignUp = () => {
               required
             />
             <P>Що вам потрібно?</P>
-            {checkboxes.map((data, i) => (
-              <CheckBoxContainer>
-                <CheckBox type="checkbox" /> {data}
+            {purposes.map((data, i) => (
+              <CheckBoxContainer key={data.id}>
+                <CheckBox
+                  type="checkbox"
+                  onChange={() => handleCheckboxChange(data.id)}
+                />
+                {data.name}
               </CheckBoxContainer>
             ))}
-            <Btn
-              onClick={() => {
-                console.log();
-              }}
-            >
-              Замовити дзвінок
-            </Btn>
+            <Btn onClick={handleSubmit}>Замовити дзвінок</Btn>
           </Form>
-          {/* <Btn onClick={handleSubmit}>Записатись</Btn> */}
         </Box>
       </Container>
     </Section>

@@ -52,37 +52,42 @@ export const teamMembers = [
 export const purposes = [
   {
     id: "1",
-    name: "dd",
+    name: "Консультація",
     img: exp1,
   },
   {
     id: "2",
-    name: "ww",
+    name: "Гігієна ротової порожнини",
     img: exp1,
   },
   {
     id: "3",
-    name: "ss",
+    name: "Лікування",
     img: exp1,
   },
   {
     id: "4",
-    name: "ss",
+    name: "Встановлення коронки",
     img: exp1,
   },
   {
     id: "5",
-    name: "ss",
+    name: "Відбілювання",
     img: exp1,
   },
   {
     id: "6",
-    name: "ss",
+    name: "Встановлення брекет системи",
     img: exp1,
   },
   {
     id: "7",
-    name: "ss",
+    name: "Імплантація",
+    img: exp1,
+  },
+  {
+    id: "8",
+    name: "Інше",
     img: exp1,
   },
 ];

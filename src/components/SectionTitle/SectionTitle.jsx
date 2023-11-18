@@ -32,14 +32,12 @@ const SectionTitle = ({ text }) => {
   return (
     <TitleSection>
       <img
-        class="tn-atom__img t-img loaded"
         data-original="https://static.tildacdn.com/tild3364-6232-4265-b333-306132616564/Vector_3.svg"
         imgfield="tn_img_1610455862242"
         src="https://static.tildacdn.com/tild3364-6232-4265-b333-306132616564/Vector_3.svg"
       />
       <Title>{text}</Title>
       <ReverseImg
-        class="tn-atom__img t-img loaded"
         data-original="https://static.tildacdn.com/tild3364-6232-4265-b333-306132616564/Vector_3.svg"
         imgfield="tn_img_1610455862250"
         src="https://static.tildacdn.com/tild3364-6232-4265-b333-306132616564/Vector_3.svg"

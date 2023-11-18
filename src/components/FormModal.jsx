@@ -101,35 +101,60 @@ const FormModal = () => {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
 
-  const memoizedSelectedCards = useMemo(() => selectedCards, [selectedCards]);
   const memoizedName = useMemo(() => name, [name]);
   const memoizedPhone = useMemo(() => phone, [phone]);
 
   const handleCardClick = (cardId) => {
-    if (selectedCards.includes(cardId)) {
-      setSelectedCards(selectedCards.filter((id) => id !== cardId));
-    } else {
-      setSelectedCards([...selectedCards, cardId]);
-    }
+    setSelectedCards((prevSelectedCards) =>
+      prevSelectedCards.includes(cardId)
+        ? prevSelectedCards.filter((id) => id !== cardId)
+        : [...prevSelectedCards, cardId]
+    );
   };
 
-  const handleNameChange = (event) => {
-    setName(event.target.value);
+  const handleNameChange = ({ target: { value } }) => {
+    setName(value);
   };
 
-  const handlePhoneChange = (event) => {
-    setPhone(event.target.value);
+  const handlePhoneChange = ({ target: { value } }) => {
+    setPhone(value);
   };
 
   const handleSubmit = async () => {
+    // Basic form validation
+    if (!name.trim()) {
+      alert("Please enter your name");
+      return;
+    }
+
+    if (!phone.trim()) {
+      alert("Please enter your phone number");
+      return;
+    }
+
+    // Additional validation for phone number (you can customize this based on your requirements)
+    const phoneRegex = /^\d{10}$/;
+    if (!phoneRegex.test(phone)) {
+      alert("Please enter a valid 10-digit phone number");
+      return;
+    }
+
+    // Check at least one checkbox is selected
+    if (selectedCards.length === 0) {
+      alert("Please select at least one checkbox");
+      return;
+    }
+
+    // Proceed with submitting the form
     const dataToSend = {
-      name: memoizedName,
-      phone: memoizedPhone,
-      selectedCards: memoizedSelectedCards.map((cardId) => {
+      name,
+      phone,
+      selectedCards: selectedCards.map((cardId) => {
         const selectedCard = purposes.find((card) => card.id === cardId);
         return { name: selectedCard.name };
       }),
     };
+
     postMessage(dataToSend);
   };
 
