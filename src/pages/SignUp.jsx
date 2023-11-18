@@ -5,6 +5,7 @@ import exp1 from "../assets/experience/exp1.jpeg";
 import HeaderButton from "../components/Buttons/HeaderButton";
 import { purposes } from "../constants/constants";
 import { sendToPost } from "../api/postMail";
+import { useForm } from "react-hook-form";
 // import { purposes } from "../constants/constants";
 
 const Section = styled.section`
@@ -146,68 +147,26 @@ const Btn = styled.button`
 `;
 
 const SignUp = () => {
-  const [name, setName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [selectedPurposes, setSelectedPurposes] = useState([]);
+  const {
+    register,
+    reset,
+    handleSubmit,
+    watch,
+    formState: { errors, isSubmitted },
+  } = useForm();
 
-  const memoizedName = useMemo(() => name, [name]);
-  const mamoizedPhoneNumber = useMemo(() => phoneNumber, [phoneNumber]);
-
-  const formRef = useRef();
-  const focusRef = useRef();
-
-  const handleNameChange = ({ target: { value } }) => {
-    setName(value);
-  };
-
-  const handlePhoneNumberChange = ({ target: { value } }) => {
-    setPhoneNumber(value);
-  };
-
-  const handleCheckboxChange = (purposeId) => {
-    setSelectedPurposes((prevSelectedPurposes) =>
-      prevSelectedPurposes.includes(purposeId)
-        ? prevSelectedPurposes.filter((id) => id !== purposeId)
-        : [...prevSelectedPurposes, purposeId]
-    );
-  };
-
-  const handleSubmit = async () => {
-    // Basic form validation
-    if (!name.trim()) {
-      alert("Please enter your name");
-      return;
-    }
-
-    if (!phoneNumber.trim()) {
-      alert("Please enter your phone number");
-      return;
-    }
-
-    // Additional validation for phone number (you can customize this based on your requirements)
-    const phoneRegex = /^\d{10}$/;
-    if (!phoneRegex.test(phoneNumber)) {
-      alert("Please enter a valid 10-digit phone number");
-      return;
-    }
-
-    // Check at least one checkbox is selected
-    if (selectedPurposes.length === 0) {
-      alert("Please select at least one checkbox");
-      return;
-    }
-
-    const formData = {
-      name: memoizedName,
-      phoneNumber: mamoizedPhoneNumber,
-      selectedPurposes: selectedPurposes.map((purposeId) => {
-        const selectedPurpose = purposes.find(
-          (purpose) => purpose.id === purposeId
-        );
-        return { name: selectedPurpose.name };
-      }),
+  const onSubmit = (data) => {
+    const purposesArray = Object.entries(data.purposes);
+    const selectedPurposes = purposesArray
+      .filter(([purpose, value]) => value === true)
+      .map(([purpose]) => purpose);
+    const sendData = {
+      name: data.name,
+      phone: data.phone,
+      selectedPurposes: selectedPurposes,
     };
-    await sendToPost(formData);
+    reset();
+    sendToPost(sendData);
   };
 
   return (
@@ -218,38 +177,48 @@ const SignUp = () => {
           <img src={exp1} />
         </Box>
         <Box>
-          <Form>
+          <Form onSubmit={handleSubmit(onSubmit)}>
             <FormTitle>Вкажіть ваші дані і ми звʼяжемось з вами</FormTitle>
             <Input
               type="text"
               placeholder="Імʼя"
-              value={memoizedName}
-              onChange={handleNameChange}
-              required
+              {...register("name", {
+                required: "Це поле обов'язкове",
+                minLength: {
+                  value: 2,
+                  message: "Ім'я повинно містити принаймні 2 символи",
+                },
+              })}
             />
+            {errors.name && <p>{errors.name.message}</p>}
             <Input
               type="text"
               id="phoneNumber"
               name="phoneNumber"
               placeholder="(XXX) XXX-XXXX"
-              value={mamoizedPhoneNumber}
-              onChange={handlePhoneNumberChange}
-              required
+              {...register("phone", {
+                required: "Це поле обов'язкове",
+                pattern: {
+                  value: /^\d{10}$/,
+                  message: "Неправильний формат телефонного номеру",
+                },
+              })}
             />
+            {errors.phone && <p>{errors.phone.message}</p>}
             <P>Що вам потрібно?</P>
             <CheckBoxGroup>
               {purposes.map((data, i) => (
                 <CheckBoxContainer key={data.id}>
                   <CheckBox
                     type="checkbox"
-                    onChange={() => handleCheckboxChange(data.id)}
+                    {...register(`purposes.${data.name}`)}
                   />
                   {data.name}
                 </CheckBoxContainer>
               ))}
             </CheckBoxGroup>
 
-            <Btn onClick={handleSubmit}>Замовити дзвінок</Btn>
+            <Btn type="submit">Замовити дзвінок</Btn>
           </Form>
         </Box>
       </Container>
