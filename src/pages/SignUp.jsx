@@ -146,6 +146,13 @@ const Btn = styled.button`
   }
 `;
 
+const ErrorMessage = styled.p`
+  font-size: 16px;
+  color: red;
+  margin-top: 5px;
+  font-weight: 200;
+`;
+
 const SignUp = () => {
   const {
     register,
@@ -190,7 +197,7 @@ const SignUp = () => {
                 },
               })}
             />
-            {errors.name && <p>{errors.name.message}</p>}
+            {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
             <Input
               type="text"
               id="phoneNumber"
@@ -204,7 +211,9 @@ const SignUp = () => {
                 },
               })}
             />
-            {errors.phone && <p>{errors.phone.message}</p>}
+            {errors.phone && (
+              <ErrorMessage>{errors.phone.message}</ErrorMessage>
+            )}
             <P>Що вам потрібно?</P>
             <CheckBoxGroup>
               {purposes.map((data, i) => (
