@@ -17,7 +17,6 @@ const Section = styled.section`
 
 const Container = styled.div`
   width: 75%;
-  margin-top: -100px;
 
   display: flex;
   justify-content: space-between;

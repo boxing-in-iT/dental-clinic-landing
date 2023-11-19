@@ -8,6 +8,9 @@ import Results from "./pages/Results";
 import SignUp from "./pages/SignUp";
 import Faq from "./pages/Faq";
 import Footer from "./components/Footer";
+import Example from "./components/Carousels/HorizontalScroll/HorizontalScroll";
+import Services from "./pages/Services";
+import Carousel from "./components/Carousels/Carousel/Carousel";
 
 function App() {
   return (
@@ -18,6 +21,8 @@ function App() {
       <Experience />
       <SignUp />
       <Faq />
+      <Services />
+      <Results />
       <Footer />
     </>
   );

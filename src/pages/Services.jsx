@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import HorizontalScrollCarousel from "../components/Carousels/HorizontalScroll/HorizontalScroll";
 import SectionTitle from "../components/SectionTitle/SectionTitle";
+import Carousel from "../components/Carousels/Carousel/Carousel";
 
 const Section = styled.section`
   margin-top: 0;
@@ -11,7 +11,9 @@ const Section = styled.section`
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
+  @media (max-width: 64em) {
+    min-height: 40vh;
+  }
 `;
 
 const Container = styled.div`
@@ -26,6 +28,7 @@ const Container = styled.div`
 
   @media (max-width: 64em) {
     width: 85%;
+    min-height: 30vh;
   }
   @media (max-width: 48em) {
     justify-items: center;
@@ -39,15 +42,15 @@ const Container = styled.div`
   }
 `;
 
-const Results = () => {
+const Services = () => {
   return (
     <Section>
-      <SectionTitle color={"black"} text={"Клініка та її результати"} />
+      <SectionTitle color={"white"} text={"Послуги"} />
       <Container>
-        <HorizontalScrollCarousel />
+        <Carousel />
       </Container>
     </Section>
   );
 };
 
-export default Results;
+export default Services;

@@ -25,7 +25,7 @@ const Title = styled.h1`
   font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 900;
-  font-size: 90px;
+  font-size: 60px;
 
   letter-spacing: 0.08em;
   /* color: #fff; */
