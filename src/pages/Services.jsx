@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import SectionTitle from "../components/SectionTitle/SectionTitle";
-import Carousel from "../components/Carousels/Carousel/Carousel";
+import Carousel from "../components/Carousels/Carousel";
 
 const Section = styled.section`
   margin-top: 0;

@@ -41,10 +41,6 @@ const Box = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-top: 150px;
-  @media (max-width: 64em) {
-    max-height: 25vh;
-  }
 `;
 
 const Title = styled.h2`

@@ -1,6 +1,12 @@
 import member1 from "../assets/team/member.jpeg";
 import exp1 from "../assets/experience/exp1.jpeg";
 
+// {cards.map((data, i) => {
+//   <SwiperSlide key={data.id}>
+//     <img src={data.url} alt={data.title} />
+//   </SwiperSlide>;
+// })}
+
 export const images = { member1, exp1 };
 
 export const teamMembers = [

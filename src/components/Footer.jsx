@@ -66,26 +66,6 @@ const Title = styled.h1`
   }
 `;
 
-const Socials = styled.ul`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  list-style: none;
-`;
-
-const SocialsItem = styled.li`
-  margin: 1rem 1rem;
-  color: ${(props) => props.theme.text};
-  transition: all 0.2s ease;
-  width: 2rem;
-  height: 2rem;
-
-  &:hover {
-    transform: scale(0.9);
-    cursor: pointer;
-  }
-`;
-
 const Menu = styled.ul`
   width: 50%;
   list-style: none;

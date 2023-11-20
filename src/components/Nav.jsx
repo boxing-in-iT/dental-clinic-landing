@@ -57,7 +57,7 @@ const Menu = styled.ul`
     bottom: 0;
     width: 100vw;
     z-index: 10000;
-    /* background-color: ${(props) => `rgba(${props.theme.bodyRgba}, 0.85)`}; */
+    background-color: ${(props) => props.menuBackground};
     backdrop-filter: blur(2px);
 
     transform: ${(props) =>
@@ -173,6 +173,7 @@ const Nav = () => {
   const [click, setClick] = useState(false);
   const { isShowing, toggle } = useModal();
   const [showMenu, setShowMenu] = useState(false);
+  const [menuBackground, setMenuBackground] = useState("transperent");
 
   useEffect(() => {
     setShowMenu(true);
@@ -187,11 +188,14 @@ const Nav = () => {
         <HamburgerMenu
           className="mobile"
           click={click}
-          onClick={() => setClick(!click)}
+          onClick={() => {
+            setClick(!click);
+            setMenuBackground(click ? "transparent" : "#000"); // Изменено
+          }}
         >
           &nbsp;
         </HamburgerMenu>
-        <Menu click={click}>
+        <Menu click={click} menuBackground={menuBackground}>
           <MenuItem>Послуги</MenuItem>
           <MenuItem>Досвід</MenuItem>
           <MenuItem>Результати</MenuItem>

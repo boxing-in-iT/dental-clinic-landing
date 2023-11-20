@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
-import HorizontalScrollCarousel from "../components/Carousels/HorizontalScroll/HorizontalScroll";
 import SectionTitle from "../components/SectionTitle/SectionTitle";
+import ProgressSlides from "../components/Carousels/ProgressSlides";
 
 const Section = styled.section`
   margin-top: 0;
@@ -30,11 +30,11 @@ const Container = styled.div`
   @media (max-width: 48em) {
     justify-items: center;
     flex-direction: column-reverse;
-    gap: 2rem;
+    gap: 1rem;
 
     & > *:first-child {
       width: 100%;
-      margin-top: 2rem;
+      /* margin-top: 1rem; */
     }
   }
 `;
@@ -44,7 +44,7 @@ const Results = () => {
     <Section>
       <SectionTitle color={"black"} text={"Клініка та її результати"} />
       <Container>
-        <HorizontalScrollCarousel />
+        <ProgressSlides />
       </Container>
     </Section>
   );
